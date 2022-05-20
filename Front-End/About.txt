@@ -1,0 +1,1 @@
+All Svelte files relevant for the future frontend of this application will be placed here.
