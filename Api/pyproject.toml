@@ -8,6 +8,11 @@ authors = ["Kobiri <kobiris1998@gmail.com>"]
 python = "^3.9"
 fastapi = "^0.78.0"
 uvicorn = "^0.17.6"
+pandas = "^1.4.2"
+python-multipart = "^0.0.5"
+joblib = "^1.1.0"
+scikit-learn = "^1.1.1"
+xgboost = "^1.6.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
