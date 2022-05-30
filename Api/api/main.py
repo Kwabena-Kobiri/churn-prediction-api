@@ -3,15 +3,16 @@ import pandas
 import io
 import fastapi.responses
 import joblib
+import preprocess
 
 app = fastapi.FastAPI()
 
-model = joblib.load("./RidgeCVModel.pkl")
+model = joblib.load("./XGBClassifier.pkl")
 
 
 @app.get("/")
 async def home():
-    return "This is a Machine Learning Application to predict burn area"
+    return "This is a Machine Learning Application to predict customer churn"
 
 
 @app.post("/predict")
@@ -28,9 +29,14 @@ async def upload_file(
 
     # Convert the data file into pandas dataframe.
     df = pandas.read_csv(io.BytesIO(data))
-    df["burn_area"] = 200
-    df["another_column"] = 34
-    print(df)
+    df = preprocess.preprocess(df)
+
+    # Run prediction on new data
+    df["CHURN"] = model.predict_proba(df)[:, 1]
+
+    print()
+    print(df.head())
+    print()
     print(type(df))
 
     # response = fastapi.responses.FileResponse(path=df, filename='download', media_type='text/csv')
