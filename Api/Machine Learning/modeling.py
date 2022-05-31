@@ -2,10 +2,11 @@
 #     https://colab.research.google.com/drive/1iz8U4TNMIOYWgC8x1vNUW4hsdU0f6N1_
 # """
 
+import joblib
+import numpy as np
+
 # # Import some libraries
 import pandas as pd
-import numpy as np
-import joblib
 
 # Import Data
 print("Loading data...")
@@ -75,17 +76,16 @@ print(test.head())
 
 
 # """## Machine Learning"""
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
-    recall_score,
-    precision_recall_curve,
     f1_score,
+    precision_recall_curve,
+    recall_score,
 )
-from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 dropcols = ["user_id", "CHURN"]
 y = train["CHURN"]
@@ -152,34 +152,44 @@ test["TENURE"] = encoder.transform(test["TENURE"])
 print()
 print(X_train.select_dtypes(include=["int64", "float64"]).describe().T)
 
-
-# Building an XGBClassifier model
-from xgboost import XGBClassifier
-
-from sklearn.metrics import log_loss
+###################################################################
 
 print()
-print("Shape of X_test: ", X_test.shape)
-print("Shape of the test data: ", test.shape)
-
-
-XGB = XGBClassifier(max_depth=6, n_estimators=200)
-XGB.fit(X_train, y_train)
-xgb_pred = XGB.predict_proba(X_test)
-
-# Printing the log loss value of the model
 print()
-print("Logloss")
-print(log_loss(y_test, xgb_pred))
-print()
+print(test.select_dtypes(include=["int64", "float64"]).describe().T)
+print(test.info())
 
 
-# Making predictions on test dataset with the model
-test["CHURN"] = XGB.predict_proba(test)[:, 1]
-print(test.head())
+####################################################################
 
 
-# SAVING THE MODEL
-joblib.dump(XGB, "XGBClassifier.pkl")
-print()
-print("Model has been saved successfully")
+# # Building an XGBClassifier model
+# from xgboost import XGBClassifier
+
+# from sklearn.metrics import log_loss
+
+# print()
+# print("Shape of X_test: ", X_test.shape)
+# print("Shape of the test data: ", test.shape)
+
+
+# XGB = XGBClassifier(max_depth=6, n_estimators=200)
+# XGB.fit(X_train, y_train)
+# xgb_pred = XGB.predict_proba(X_test)
+
+# # Printing the log loss value of the model
+# print()
+# print("Logloss")
+# print(log_loss(y_test, xgb_pred))
+# print()
+
+
+# # Making predictions on test dataset with the model
+# test["CHURN"] = XGB.predict_proba(test)[:, 1]
+# print(test.head())
+
+
+# # SAVING THE MODEL
+# joblib.dump(XGB, "XGBClassifier.pkl")
+# print()
+# print("Model has been saved successfully")

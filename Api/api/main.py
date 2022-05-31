@@ -1,8 +1,9 @@
-import fastapi
-import pandas
 import io
+
+import fastapi
 import fastapi.responses
 import joblib
+import pandas
 import preprocess
 
 app = fastapi.FastAPI()

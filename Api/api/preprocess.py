@@ -1,6 +1,5 @@
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import LabelEncoder
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 
 def preprocess(df):
